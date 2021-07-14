@@ -18,8 +18,8 @@ class RegisterViewController: UIViewController {
     // Logo
     private let imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "person.badge.plus")
-        imageView.tintColor = .link
+        imageView.image = UIImage(systemName: "person.circle")
+        imageView.tintColor = .gray
         imageView.contentMode = .scaleAspectFit
         imageView.layer.masksToBounds = true
         imageView.layer.borderWidth = 2
@@ -141,7 +141,7 @@ class RegisterViewController: UIViewController {
     }
     
     @objc private func didTapChangeProfilePic() {
-       presentPhotoActionSheet()
+        presentPhotoActionSheet()
     }
     
     override func viewDidLayoutSubviews() {
@@ -210,22 +210,52 @@ class RegisterViewController: UIViewController {
             alertUserLoginError()
             return
         }
+        
+        
         // Firebase Register
-        FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
-            guard let result = authResult, error == nil else {
-                print("Error creating user")
+        DatabaseManager.shared.userExists(with: email) { [weak self] exists in
+            guard let strongSelf = self else {
                 return
             }
-            let user = result.user
-            print("Created User: \(user)")
+            guard !exists else {
+                // user already exists
+                strongSelf.alertUserLoginError(message: "Looks like a user account for that emeail address already exists")
+                return
+            }
+            FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
+                guard authResult != nil, error == nil else {
+                    print("Error creating user")
+                    return
+                }
+                DatabaseManager.shared.insertUser(with: ChatAppUser(firstName: firstName,
+                                                                    lastName: lastName,
+                                                                    emailAddress: email))
+                strongSelf.navigationController?.dismiss(animated: true, completion: nil)
+            }
         }
     }
     
-    func alertUserLoginError() {
-        let alert = UIAlertController(title: "Woops", message: "Please enter all information to create a new account", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
-        present(alert, animated: true, completion: nil)
+    func alertUserLoginError(message: String = "Please enter all information to create a new account.") {
         
+        let alert = UIAlertController(
+            title: "Woops",
+            message: message,
+            preferredStyle: .alert
+        )
+        
+        alert.addAction(
+            UIAlertAction(
+                title: "Dismiss",
+                style: .cancel,
+                handler: nil
+            )
+        )
+        
+        present(
+            alert,
+            animated: true,
+            completion: nil
+        )
     }
     
     @objc private func didTapRegister() {
@@ -246,7 +276,6 @@ extension RegisterViewController: UITextFieldDelegate {
         } else if textField == passwordField {
             registerButtonTapped()
         }
-        
         return true
     }
 }
@@ -254,14 +283,38 @@ extension RegisterViewController: UITextFieldDelegate {
 extension RegisterViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func presentPhotoActionSheet() {
-        let actionSheet = UIAlertController(title: "Profile Picture", message: "How would you like to select a picture?", preferredStyle: .actionSheet)
-        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        actionSheet.addAction(UIAlertAction(title: "Take Photo", style: .default, handler: { [weak self] _ in
-            self?.presentCamera()
-        }))
-        actionSheet.addAction(UIAlertAction(title: "Choose photo", style: .default, handler: { [weak self] _ in
-            self?.presentPhotoPicker()
-        }))
+        let actionSheet = UIAlertController(
+            title: "Profile Picture",
+            message: "How would you like to select a picture?",
+            preferredStyle: .actionSheet
+        )
+        
+        actionSheet.addAction(
+            UIAlertAction(
+                title: "Cancel",
+                style: .cancel,
+                handler: nil
+            )
+        )
+        
+        actionSheet.addAction(
+            UIAlertAction(
+                title: "Take a Photo",
+                style: .default,
+                handler: { [weak self] _ in
+                    self?.presentCamera()
+                }
+            )
+        )
+        
+        actionSheet.addAction(
+            UIAlertAction(
+                title: "Choose photo",
+                style: .default,
+                handler: {
+                    [weak self] _ in
+                    self?.presentPhotoPicker()
+                }))
         
         present(actionSheet, animated: true)
     }

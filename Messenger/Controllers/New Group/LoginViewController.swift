@@ -132,7 +132,6 @@ class LoginViewController: UIViewController {
     }
     
     @objc private func loginButtonTapped() {
-        
         emailField.resignFirstResponder()
         passwordField.resignFirstResponder()
         guard let email = emailField.text,
@@ -145,13 +144,17 @@ class LoginViewController: UIViewController {
         }
         
         // Firebase Log in
-        Firebase.Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
+        Firebase.Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
+            guard let strongSelf = self else {
+                return
+            }
             guard let result = authResult, error == nil else {
                 print(error?.localizedDescription ?? "error with sign in")
                 return
             }
             let user = result.user
             print("Logged in User: \(user)")
+            strongSelf.navigationController?.dismiss(animated: true, completion: nil)
         }
     }
     

@@ -23,6 +23,7 @@
 		CE91A0E2269DFB120043DE00 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE91A0E1269DFB120043DE00 /* ProfileViewController.swift */; };
 		CE91A0E5269E09030043DE00 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE91A0E4269E09030043DE00 /* Extensions.swift */; };
 		CE91A0E7269EFCFB0043DE00 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE91A0E6269EFCFB0043DE00 /* GoogleService-Info.plist */; };
+		CE91A0E9269F1B360043DE00 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE91A0E8269F1B360043DE00 /* DatabaseManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 		CE91A0E1269DFB120043DE00 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		CE91A0E4269E09030043DE00 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		CE91A0E6269EFCFB0043DE00 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		CE91A0E8269F1B360043DE00 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -152,6 +154,7 @@
 				CE91A0BA269D84BE0043DE00 /* AppDelegate.swift */,
 				CE91A0BC269D84BE0043DE00 /* SceneDelegate.swift */,
 				CE91A0E4269E09030043DE00 /* Extensions.swift */,
+				CE91A0E8269F1B360043DE00 /* DatabaseManager.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -298,6 +301,7 @@
 				CE91A0DA269D9ABE0043DE00 /* RegisterViewController.swift in Sources */,
 				CE91A0DE269DFAC30043DE00 /* VideoPlayerViewController.swift in Sources */,
 				CE91A0E0269DFAF70043DE00 /* NewConversationViewController.swift in Sources */,
+				CE91A0E9269F1B360043DE00 /* DatabaseManager.swift in Sources */,
 				CE91A0D8269D9AA80043DE00 /* LoginViewController.swift in Sources */,
 				CE91A0E5269E09030043DE00 /* Extensions.swift in Sources */,
 				CE91A0C5269D84BE0043DE00 /* Messenger.xcdatamodeld in Sources */,
